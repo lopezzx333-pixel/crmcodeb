@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "clientes": {
+      ".read": true,
+      "$id": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['negocio'])"
+      }
+    }
+  }
+}

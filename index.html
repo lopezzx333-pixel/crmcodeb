@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>codeboost CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f7f7f8;--card:#fff;--ink:#0a0a0a;--mut:#6b6b73;--line:#e4e4e8;--red:#ff0000;--wine:#800020;--today:#800020}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0a0b;--card:#141416;--ink:#f5f5f6;--mut:#9b9ba4;--line:#26262b;--today:#e0556f}}
+:root[data-theme="dark"]{--bg:#0a0a0b;--card:#141416;--ink:#f5f5f6;--mut:#9b9ba4;--line:#26262b;--today:#e0556f}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:16px 16px 60px}
+header{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-bottom:16px;padding:20px 22px;border-radius:16px;color:#fff;background:radial-gradient(120% 160% at 100% 120%,rgba(255,0,0,.45),transparent 55%),#000}
+h1{margin:0;font-size:inherit;font-weight:inherit}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:56px;height:auto;flex:none}
+.wm{font-size:30px;letter-spacing:-.04em;line-height:1;font-weight:500}
+.wm b{font-weight:800}
+.bars{display:flex;gap:5px;margin-top:6px}
+.bars i{flex:1;height:5px;border-radius:3px;background:var(--wine)}
+.bars i:nth-child(2){background:var(--red)}
+.sub{font-size:12px;color:#b9b9c0;margin-top:6px}
+button,input,select,textarea{font:inherit;color:inherit}
+.btn{border:1px solid var(--line);background:var(--card);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--ink)}
+header .btn{background:transparent;color:#fff;border-color:#3a3a40}
+header .btn:hover{border-color:#fff}
+.btn.pri,header .btn.pri{background:var(--red);color:#fff;border-color:var(--red);font-weight:600}
+.btn.pri:hover,header .btn.pri:hover{background:var(--wine);border-color:var(--wine)}
+.btn.danger{color:var(--red)}
+.eu{padding:8px 12px;border-radius:8px;border:1px solid #3a3a40;background:transparent;color:#fff;width:140px}
+.btn.wa{background:var(--ink);border-color:var(--ink);color:var(--bg);font-weight:600;text-decoration:none}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.stat{text-align:left;border-radius:12px;padding:12px 14px;cursor:pointer;background:var(--s);color:var(--f);border:0}
+.stat.on{box-shadow:0 0 0 3px var(--red)}
+.stat b{display:block;font-size:24px;line-height:1.1;font-weight:800}
+.stat span{font-size:13px}
+.money{background:#000;color:#fff;cursor:default;border-bottom:4px solid var(--red)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.bar input,.bar select{padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.bar input{flex:1;min-width:200px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--s);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.card.late{outline:2px solid var(--red)}
+.card.today{outline:2px dashed var(--today)}
+.top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.top h3{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em;word-break:break-word}
+.tag{font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--s);color:var(--f);white-space:nowrap}
+.mut{color:var(--mut);font-size:13px}
+.ret{font-size:13px;font-weight:600}
+.late .ret{color:var(--red)}.today .ret{color:var(--today)}
+.obs{font-size:13px;white-space:pre-wrap;max-height:4.4em;overflow:hidden}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.acts .btn{padding:6px 10px;font-size:13px}
+.empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:44px 10px;border:1px dashed var(--line);border-radius:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='30'%3E%3Cpath d='M12 8l-6 7 6 7M32 8l6 7-6 7' fill='none' stroke='%23800020' stroke-opacity='.16' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;width:min(560px,94vw);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+form{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form h2{grid-column:1/-1;margin:0;font-size:18px;font-weight:700;padding-bottom:10px;border-bottom:4px solid var(--red);width:max-content;max-width:100%}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mut)}
+label.full{grid-column:1/-1}
+label input,label select,label textarea{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:15px}
+textarea{min-height:90px;resize:vertical}
+.foot{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end}
+@media(max-width:520px){form{grid-template-columns:1fr}}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:9px 16px;border-radius:99px;font-size:13px;border-bottom:3px solid var(--red);opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 class="brand" aria-label="codeboost CRM">
+      <svg viewBox="0 0 64 44" aria-hidden="true"><path d="M18 6L4 22l14 16M46 6l14 16-14 16" fill="none" stroke="#800020" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 3l13 17h-7v18H26V20h-7z" fill="#ff0000" stroke="#ff0000" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span><span class="wm">code<b>boost</b></span><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><div class="sub" id="modo">CRM de clientes</div></span>
+    </h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input class="eu" id="eu" placeholder="Seu nome" aria-label="Seu nome" maxlength="40">
+      <button class="btn" id="exp">Exportar backup</button>
+      <button class="btn" id="imp">Importar</button>
+      <input type="file" id="file" accept=".json" hidden>
+      <button class="btn pri" id="novo">+ Novo cliente</button>
+    </div>
+  </header>
+
+  <section class="stats" id="stats" aria-label="Resumo"></section>
+
+  <div class="bar">
+    <input type="search" id="q" placeholder="Buscar por negócio, contato ou segmento">
+    <select id="fs" aria-label="Filtrar por status"></select>
+  </div>
+
+  <main class="grid" id="list"></main>
+</div>
+
+<dialog id="dlg">
+  <form id="f" method="dialog">
+    <h2 id="ft">Novo cliente</h2>
+    <label class="full">Nome do negócio *<input name="negocio" required></label>
+    <label>Nome do contato<input name="contato"></label>
+    <label>Telefone / WhatsApp<input name="tel" inputmode="tel" placeholder="(38) 99999-9999"></label>
+    <label>E-mail<input name="email" type="email"></label>
+    <label>Instagram ou site atual<input name="web"></label>
+    <label>Segmento<input name="segmento" placeholder="Ex.: hamburgueria"></label>
+    <label>Cidade<input name="cidade"></label>
+    <label>Status<select name="status" id="st"></select></label>
+    <label>Valor do projeto (R$)<input name="valor" type="number" min="0" step="0.01"></label>
+    <label>Próximo retorno<input name="retorno" type="date"></label>
+    <label class="full">Observações<textarea name="obs"></textarea></label>
+    <div class="foot">
+      <button type="button" class="btn" id="cancel">Cancelar</button>
+      <button type="submit" class="btn pri">Salvar</button>
+    </div>
+  </form>
+</dialog>
+<div id="toast" role="status"></div>
+
+<script>
+// ===== CONFIGURAÇÃO DO BANCO COMPARTILHADO =====
+// Cole aqui a URL do seu Firebase Realtime Database, por exemplo:
+// 'https://meu-projeto-default-rtdb.firebaseio.com'
+// Deixe vazio para usar só o armazenamento local deste navegador.
+const DB_URL='';
+// ================================================
+const BASE=DB_URL.trim().replace(/\/+$/,'');
+const KEY='crm_clientes_v1';
+let ultimo='';
+const STATUS=[
+ ['Novo','#e6e6ea','#0a0a0a'],['Mensagem enviada','#f2c6cf','#0a0a0a'],['Respondeu','#d9788c','#0a0a0a'],
+ ['Proposta enviada','#ff0000','#ffffff'],['Fechado','#800020','#ffffff'],['Perdido','#4a4a52','#ffffff']
+];
+const cor=Object.fromEntries(STATUS.map(([n,b,f])=>[n,[b,f]]));
+let clientes=[],editId=null,filtro='';
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const brl=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const hoje=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fdata=s=>s?s.split('-').reverse().join('/'):'';
+
+function carregar(){try{clientes=JSON.parse(localStorage.getItem(KEY))||[]}catch(e){clientes=[]}}
+const novoId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const nome=()=>($('#eu').value||'').trim()||'Anônimo';
+function modo(off){
+  $('#modo').textContent=!BASE?'Modo local • dados só neste navegador':off?'Sem conexão • tentando de novo':'CRM compartilhado • atualiza sozinho';
+}
+async function api(path,method,body){
+  const r=await fetch(BASE+path+'.json',{method,headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined});
+  if(!r.ok)throw new Error(r.status);
+  return r.json();
+}
+async function gravar(c){
+  if(!BASE){salvar();return}
+  try{await api('/clientes/'+c.id,'PUT',c);modo()}catch(e){modo(true);toast('Não foi possível salvar no banco compartilhado.')}
+}
+async function remover(id){
+  if(!BASE){salvar();return}
+  try{await api('/clientes/'+id,'DELETE');modo()}catch(e){modo(true);toast('Não foi possível excluir no banco compartilhado.')}
+}
+async function sync(){
+  if(!BASE)return;
+  try{
+    const o=await api('/clientes','GET')||{},arr=Object.values(o),j=JSON.stringify(arr);
+    modo();
+    if(j!==ultimo){ultimo=j;clientes=arr;render()}
+  }catch(e){modo(true)}
+}
+function salvar(){try{localStorage.setItem(KEY,JSON.stringify(clientes))}catch(e){toast('Não foi possível salvar neste navegador. Use “Exportar backup”.')}}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2200)}
+
+function wa(tel){
+  let d=String(tel||'').replace(/\D/g,'');
+  if(!d)return '';
+  if(d.length<=11)d='55'+d.replace(/^0+/,'');
+  return 'https://wa.me/'+d;
+}
+
+function situacao(c){
+  if(!c.retorno||c.status==='Fechado'||c.status==='Perdido')return '';
+  const h=hoje();
+  return c.retorno<h?'late':c.retorno===h?'today':'';
+}
+
+function renderStats(){
+  const cont=Object.fromEntries(STATUS.map(([n])=>[n,0]));
+  clientes.forEach(c=>cont[c.status]++);
+  const total=clientes.filter(c=>c.status==='Fechado').reduce((s,c)=>s+(+c.valor||0),0);
+  $('#stats').innerHTML=
+    STATUS.map(([n,k,f])=>`<button class="stat ${filtro===n?'on':''}" style="--s:${k};--f:${f}" data-s="${esc(n)}"><b>${cont[n]}</b><span>${n}</span></button>`).join('')+
+    `<div class="stat money"><b>${brl(total)}</b><span>Total fechado</span></div>`;
+  $('#stats').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    filtro=filtro===b.dataset.s?'':b.dataset.s;$('#fs').value=filtro;render();
+  });
+}
+
+function render(){
+  renderStats();
+  const q=$('#q').value.trim().toLowerCase();
+  const lista=clientes.filter(c=>
+    (!filtro||c.status===filtro)&&
+    (!q||[c.negocio,c.contato,c.segmento].some(v=>(v||'').toLowerCase().includes(q)))
+  ).sort((a,b)=>{
+    const sa=situacao(a),sb=situacao(b),o={late:0,today:1,'':2};
+    if(o[sa]!==o[sb])return o[sa]-o[sb];
+    return (a.retorno||'9999').localeCompare(b.retorno||'9999');
+  });
+  if(!lista.length){
+    $('#list').innerHTML=`<div class="empty">${clientes.length?'Nenhum cliente encontrado com esses filtros.':'Nenhum cliente ainda. Clique em "+ Novo cliente" para começar.'}</div>`;
+    return;
+  }
+  $('#list').innerHTML=lista.map(c=>{
+    const s=situacao(c),link=wa(c.tel);
+    const rotulo=s==='late'?'Retorno vencido: ':s==='today'?'Retornar hoje: ':'Retorno: ';
+    return `<article class="card ${s}" style="--s:${cor[c.status][0]};--f:${cor[c.status][1]}">
+      <div class="top"><h3>${esc(c.negocio)}</h3><span class="tag">${esc(c.status)}</span></div>
+      <div class="mut">${[c.contato,c.segmento,c.cidade].filter(Boolean).map(esc).join(' • ')||'&nbsp;'}</div>
+      ${c.tel?`<div>${esc(c.tel)}</div>`:''}
+      ${c.email?`<div class="mut">${esc(c.email)}</div>`:''}
+      ${c.web?`<div class="mut">${esc(c.web)}</div>`:''}
+      ${c.valor?`<div><b>${brl(c.valor)}</b></div>`:''}
+      ${c.retorno?`<div class="ret">${rotulo}${fdata(c.retorno)}</div>`:''}
+      ${c.obs?`<div class="obs">${esc(c.obs)}</div>`:''}
+      <div class="mut">Cadastrado em ${fdata(c.criado)}${c.por?` • Atualizado por ${esc(c.por)} em ${fdata(c.atualizado)}`:''}</div>
+      <div class="acts">
+        ${link?`<a class="btn wa" href="${link}" target="_blank" rel="noopener">WhatsApp</a>`:''}
+        <button class="btn" data-e="${c.id}">Editar</button>
+        <button class="btn danger" data-d="${c.id}">Excluir</button>
+      </div>
+    </article>`}).join('');
+  $('#list').querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>abrir(b.dataset.e));
+  $('#list').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>excluir(b.dataset.d));
+}
+
+function abrir(id){
+  editId=id||null;
+  const f=$('#f'),c=id?clientes.find(x=>x.id===id):{status:'Novo'};
+  $('#ft').textContent=id?'Editar cliente':'Novo cliente';
+  ['negocio','contato','tel','email','web','segmento','cidade','status','valor','retorno','obs']
+    .forEach(k=>f.elements[k].value=c[k]??'');
+  $('#dlg').showModal();
+  f.elements.negocio.focus();
+}
+
+function excluir(id){
+  const c=clientes.find(x=>x.id===id);
+  if(c&&confirm(`Excluir “${c.negocio}”? Essa ação não pode ser desfeita.`)){
+    clientes=clientes.filter(x=>x.id!==id);render();remover(id);toast('Cliente excluído');
+  }
+}
+
+$('#f').addEventListener('submit',async e=>{
+  const f=e.target,d={};
+  ['negocio','contato','tel','email','web','segmento','cidade','status','valor','retorno','obs']
+    .forEach(k=>d[k]=f.elements[k].value.trim());
+  if(!d.negocio){e.preventDefault();return}
+  d.valor=d.valor===''?'':+d.valor;
+  let c=editId&&clientes.find(x=>x.id===editId);
+  if(c)Object.assign(c,d);
+  else{c={id:editId||novoId(),criado:hoje(),...d};clientes.push(c)}
+  c.por=nome();c.atualizado=hoje();
+  render();toast('Salvo');
+  await gravar(c);
+});
+
+$('#novo').onclick=()=>abrir();
+$('#cancel').onclick=()=>$('#dlg').close();
+$('#q').oninput=render;
+$('#fs').innerHTML='<option value="">Todos os status</option>'+STATUS.map(([n])=>`<option>${n}</option>`).join('');
+$('#fs').onchange=e=>{filtro=e.target.value;render()};
+$('#st').innerHTML=STATUS.map(([n])=>`<option>${n}</option>`).join('');
+
+$('#exp').onclick=()=>{
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(clientes,null,2)],{type:'application/json'}));
+  a.download='crm-backup-'+hoje()+'.json';a.click();URL.revokeObjectURL(a.href);
+};
+$('#imp').onclick=()=>$('#file').click();
+$('#file').onchange=e=>{
+  const fl=e.target.files[0];if(!fl)return;
+  const r=new FileReader();
+  r.onload=async()=>{
+    try{
+      const arr=JSON.parse(r.result);
+      if(!Array.isArray(arr))throw 0;
+      if(confirm(`Importar ${arr.length} clientes? Registros com o mesmo código serão atualizados e os demais continuam.`)){
+        for(const c of arr){
+          if(!c||!c.negocio)continue;
+          c.id=c.id||novoId();
+          const i=clientes.findIndex(x=>x.id===c.id);
+          if(i<0)clientes.push(c);else clientes[i]=c;
+          await gravar(c);
+        }
+        render();toast('Backup importado');
+      }
+    }catch(_){alert('Arquivo inválido.')}
+    e.target.value='';
+  };
+  r.readAsText(fl);
+};
+
+try{$('#eu').value=localStorage.getItem('crm_nome')||''}catch(_){}
+$('#eu').oninput=()=>{try{localStorage.setItem('crm_nome',$('#eu').value)}catch(_){}};
+modo();
+if(BASE){sync();setInterval(sync,5000)}else carregar();
+render();
+</script>
+</body>
+</html>
